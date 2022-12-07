@@ -3,16 +3,11 @@
     margin: 0;
 }
 
-#stage {
-    width: 800px;
-    height: 600px; 
-    background: url("assets/blue_bricks800X600.jpg");
-   /* background-position: center;*/
-
-
-}
 canvas {
-    /*background: #eeee;*/
+    /*width: 800px;
+    height: 600px; */
+    background: url("assets/blue_bricks800X600.jpg");
+    /*background-position: center;*/
     display: block;
     margin: 0 auto;
 }
