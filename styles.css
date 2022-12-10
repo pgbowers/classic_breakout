@@ -1,13 +1,10 @@
-* {
-    padding: 0;
-    margin: 0;
+body {   
+    background-color: chocolate; 
+    display: flex;
+    align-items: center;
+    justify-content: center;   
 }
 
-canvas {
-    /*width: 800px;
-    height: 600px; */
-    background: url("assets/blue_bricks800X600.jpg");
-    /*background-position: center;*/
-    display: block;
-    margin: 0 auto;
+#canvas1 {    
+    background: url("assets/blue_bricks800X600.jpg");       
 }
