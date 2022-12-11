@@ -10,12 +10,12 @@ var ctx = canvas.getContext('2d');
 
 var x = canvas.width/2;
 var y = canvas.height/2;
-//var dx = Math.floor(Math.random() * (3 - 7
-//var dx = Math.floor(Math.random() * (10 - (-10))) + (-10);
-var dx = 3;
-var dy = -3.5;
-//var dy = Math.floor(Math.random() * (10 - (-10))) + (-10);
-//var dy = Math.floor(Math.random() * (3 - 7));
+var ball_speed = 7;
+
+// dx and dy are the speed and angle of the ball movement
+var dx = ball_speed * (Math.random() * 2 - 1); //Random upward trajectory
+//var dx = 5;
+var dy = -5.5;
 var ballRadius = 12;
 var paddleHeight = 24;
 var paddleWidth = 104;
@@ -26,10 +26,6 @@ var paddleSpeed = 7;
 var score = 0;
 var lives = 3;
 
-//console.log("Canvas width: " + canvas.width);
-//console.log("Canvas height: " + canvas.height);
-//console.log("Window inner width: " + window.innerWidth);
-//console.log("Window inner height: " + window.innerHeight);
 
 // Defining the bricks
 var brickRowCount = 9;
@@ -44,6 +40,14 @@ document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 canvas.addEventListener("mousemove", mouseMoveHandler, false);
 
+function play() {
+    //console.log("Play was pressed");
+    score = 0;
+    lives = 3;
+    paddleSpeed = 7;
+    draw();
+}
+
 function mouseMoveHandler(event) {
     // offsetLeft: number of pixels that canvas is offset to the left from the parent.
     var relativeX = event.clientX - canvas.offsetLeft;
@@ -51,8 +55,6 @@ function mouseMoveHandler(event) {
         paddleX = relativeX - paddleWidth/2;
     }
 }
-
-console.log(canvas.offsetLeft);
 
 var bricks = [];
 for ( var c = 0; c < brickColumnCount; c++) {
@@ -84,12 +86,7 @@ function drawBricks() {
             // Draw a brick
             var brick = new Image();
             brick.src = "assets/PURPLEBRICK.png";
-            ctx.drawImage(brick, brickX, brickY);
-            //ctx.beginPath();
-            //ctx.rect(brickX, brickY, brickWidth, brickHeight);
-            //ctx.fillStyle = "#0095dd";
-            //ctx.fill();
-            //ctx.closePath();
+            ctx.drawImage(brick, brickX, brickY);            
             }
         }
     }
@@ -122,16 +119,10 @@ function drawBall(){
     ctx.closePath(); 
 }
 
-function drawPaddle(){
-    //ctx.beginPath();
-    //ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
-    //ctx.fillStyle = 'green';
-    //ctx.fill();
-    //ctx.closePath();
+function drawPaddle(){    
     var paddle = new Image();
     paddle.src = "assets/REDPADDLEM.png";
-    ctx.drawImage(paddle, paddleX, canvas.height - paddleHeight);
-    //document.div.appendChild(img);
+    ctx.drawImage(paddle, paddleX, canvas.height - paddleHeight);   
 }
 
 function drawScore() {
@@ -154,16 +145,19 @@ function collisionDetection(){
                     b.status = 0;
                     score++;
                     if (score == brickRowCount * brickColumnCount){
-                        alert("WINNER!!!");
-                        document.location.reload();                        
+                        ctx.fillStyle = 'blue';
+                        ctx.font = "50px serif";                    
+                        ctx.textAlign = 'center'; 
+                        ctx.fillText("WINNER!", canvas.width/2, canvas.height/2);
+                        //alert("WINNER!!!");
+                        //document.location.reload();                        
                     }
                 }
             }
         }
     }
 }
-console.log(canvas.height);
-console.log(paddleHeight);
+
 function draw() {
     // Drawing code
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -188,28 +182,27 @@ function draw() {
         if( x > paddleX && x < paddleX + paddleWidth){
             // bounce off the top of the paddle
             if(y + dy > (canvas.height - paddleHeight * 2)){
-            dy = -dy;           
+            dy = -ball_speed;
+            dx = ball_speed * (Math.random() * 2 - 1); //Random upward trajectory           
         }    }
         // If the ball missed the paddle
-        else {            
-                //ctx.fillStyle = 'red';
-                //ctx.font = "30px serif";
-                //ctx.fillText( 'GAME OVER!', 150, canvas.height/2);
-                //ctx.fillStyle = 'red';
-                //ctx.font = "20px serif";
-                //ctx.fillText( 'Click to play again.', 150, 300);		
-                //return;
-                lives--;
-                if(!lives) {
-                    alert("You Lose!!");
-                document.location.reload();                
-                } else{
-                    x = canvas.width / 2;
-                    y = canvas.height / 2;
-                    dx = 3;
-                    dy = -3.5;
-                    paddleX = (canvas.width - paddleWidth) / 2;
-                }
+        else {         
+            lives--;
+            if(!lives) {
+                ctx.fillStyle = 'red';
+                ctx.font = "50px serif";                    
+                ctx.textAlign = 'center'; 
+                ctx.fillText("GAME DONE!", canvas.width/2, canvas.height/2);                   
+                return;
+               
+            } else{
+                x = canvas.width / 2;
+                y = canvas.height / 2;
+                dx = ball_speed * (Math.random() * 2 - 1); //Random upward trajectory
+                 //dx = 3;
+                dy = -3.5;
+                paddleX = (canvas.width - paddleWidth) / 2;
+            }
                 	            
         }
     
