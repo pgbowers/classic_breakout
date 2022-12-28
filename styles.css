@@ -9,7 +9,7 @@ body {
 #canvas1 {    
     background: url("assets/blue_bricks800X600.jpg");       
 }
-#button {
+button {
     background-color: blue;
     color: white;
     padding: 0.5rem 1rem;
