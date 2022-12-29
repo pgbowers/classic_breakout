@@ -7,6 +7,7 @@
 //todo 1 - Make modal windows for the Startup, Quit and Game Over screens
 //todo 2 - Make some bricks a different colour with higher score
 //todo 3 - Add sounds
+//todo 4 - Split this file into several to make it easier to work with
 
 var canvas = document.getElementById('canvas1');
 var ctx = canvas.getContext('2d');
